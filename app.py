@@ -4,7 +4,7 @@ import streamlit as st
 # Page Config
 # -----------------------------
 st.set_page_config(
-    page_title="Dental Check",
+    page_title="2-Min Dental Check Up",
     page_icon="🦷",
     layout="centered"
 )
@@ -51,15 +51,17 @@ h1 {
     box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
 }
 
-/* Result styles */
+/* FIXED: readable text colors */
 .condition {
     background-color: #e6f4ea;
     border-left: 5px solid #2e7d32;
+    color: #1b4332;
 }
 
 .action {
     background-color: #e7f1ff;
     border-left: 5px solid #0d6efd;
+    color: #1b263b;
 }
 
 /* Buttons */
@@ -68,16 +70,6 @@ h1 {
     border-radius: 10px;
     height: 45px;
     font-size: 16px;
-}
-
-/* Radio spacing */
-.stRadio > div {
-    gap: 8px;
-}
-
-/* Select box spacing */
-.stSelectbox {
-    margin-bottom: 10px;
 }
 
 </style>
@@ -91,8 +83,8 @@ st.markdown('<div class="app-container">', unsafe_allow_html=True)
 # -----------------------------
 # Title
 # -----------------------------
-st.title("🦷 Dental Self-Check")
-st.caption("2-minute quick assessment")
+st.title("🦷 2-Min Dental Check")
+st.caption("Quick symptom-based guidance in under 2 minutes")
 
 st.warning("This tool provides general guidance and is not a medical diagnosis.")
 
@@ -241,14 +233,16 @@ if result:
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.write("### ✅ What you can do now")
+
+    st.subheader("✅ What you can do now")
     st.write(advice)
 
-    st.write("### ⚠️ What to avoid")
+    st.subheader("⚠️ What to avoid")
     st.write(avoid)
 
-    st.write("### 📅 When to see a dentist")
+    st.subheader("📅 When to see a dentist")
     st.write(visit)
+
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.caption("This is general guidance and not a clinical diagnosis.")
@@ -257,7 +251,7 @@ if result:
 # FOOTER
 # -----------------------------
 st.divider()
-st.caption("Dr. Sunantha S P")
+st.caption("Created by Dr. Sunantha S P")
 
 # Close container
 st.markdown('</div>', unsafe_allow_html=True)
