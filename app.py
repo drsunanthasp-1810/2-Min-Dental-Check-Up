@@ -4,52 +4,107 @@ import streamlit as st
 # Page Config
 # -----------------------------
 st.set_page_config(
-    page_title="2-Min Dental Check",
+    page_title="Dental Check",
     page_icon="🦷",
     layout="centered"
 )
 
 # -----------------------------
-# Styling
+# MOBILE APP STYLE UI
 # -----------------------------
 st.markdown("""
 <style>
-.main {
-    padding-top: 10px;
+
+/* Page background */
+body {
+    background-color: #eef2f7;
 }
-.result-box {
-    padding: 15px;
+
+/* Center container (mobile frame) */
+.block-container {
+    max-width: 420px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* App container */
+.app-container {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
+}
+
+/* Title */
+h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #0d6efd;
+}
+
+/* Card style */
+.card {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Result styles */
+.condition {
+    background-color: #e6f4ea;
+    border-left: 5px solid #2e7d32;
+}
+
+.action {
+    background-color: #e7f1ff;
+    border-left: 5px solid #0d6efd;
+}
+
+/* Buttons */
+.stButton>button {
+    width: 100%;
     border-radius: 10px;
+    height: 45px;
+    font-size: 16px;
+}
+
+/* Radio spacing */
+.stRadio > div {
+    gap: 8px;
+}
+
+/* Select box spacing */
+.stSelectbox {
     margin-bottom: 10px;
 }
-.condition {
-    background-color: #0f5132;
-    color: #d1e7dd;
-}
-.action {
-    background-color: #1c2541;
-    color: #cfe2ff;
-}
+
 </style>
 """, unsafe_allow_html=True)
 
 # -----------------------------
-# Title
+# APP CONTAINER START
 # -----------------------------
-st.title("🦷 2-Min Dental Self-Check")
-st.write("Quickly understand your dental issue in under 2 minutes.")
+st.markdown('<div class="app-container">', unsafe_allow_html=True)
 
 # -----------------------------
-# Disclaimer
+# Title
 # -----------------------------
-st.warning("This tool provides general guidance only and is not a medical diagnosis.")
+st.title("🦷 Dental Self-Check")
+st.caption("2-minute quick assessment")
+
+st.warning("This tool provides general guidance and is not a medical diagnosis.")
 
 st.divider()
 
 # -----------------------------
-# Input
+# INPUT
 # -----------------------------
-pain = st.radio("Are you experiencing any pain or discomfort in your teeth or gums?", ["Yes", "No"])
+pain = st.radio(
+    "Are you experiencing any pain or discomfort in your teeth or gums?",
+    ["Yes", "No"]
+)
 
 result = None
 action = ""
@@ -62,10 +117,10 @@ visit = ""
 # -----------------------------
 if pain == "Yes":
     pain_type = st.selectbox("Type of pain", ["Sharp", "Dull/Continuous", "While eating"])
-    trigger = st.selectbox("Trigger", ["Cold", "Sweet", "Biting", "Spontaneous"])
+    trigger = st.selectbox("Trigger", ["Cold/Heat", "Sweet", "Biting", "Spontaneous"])
     duration = st.selectbox("Duration", ["<1 day", "1–3 days", ">3 days"])
 
-    if trigger == "Cold" and pain_type == "Sharp":
+    if trigger == "Cold/Heat" and pain_type == "Sharp":
         result = "Tooth Sensitivity / Early Caries"
         action = "Visit dentist soon"
         advice = "Use desensitizing toothpaste and avoid cold foods."
@@ -76,29 +131,29 @@ if pain == "Yes":
         result = "Possible Dental Caries"
         action = "Visit dentist soon"
         advice = "Maintain oral hygiene and reduce sugar intake."
-        avoid = "Avoid frequent consumption of sweets."
+        avoid = "Avoid frequent sweets."
         visit = "Within a few days."
 
     elif trigger == "Spontaneous" and duration == ">3 days":
         result = "Possible Pulpitis"
         action = "Seek immediate dental care"
-        advice = "Consult a dentist as soon as possible."
-        avoid = "Avoid self-medication and delaying care."
+        advice = "Consult a dentist immediately."
+        avoid = "Avoid delaying treatment."
         visit = "Immediately."
 
     elif trigger == "Biting":
-        result = "Possible Cracked Tooth / Occlusal Issue"
+        result = "Possible Cracked Tooth"
         action = "Visit dentist soon"
-        advice = "Avoid chewing on the affected side."
-        avoid = "Avoid hard foods."
+        advice = "Avoid chewing on that side."
+        avoid = "Hard foods."
         visit = "Within 2–3 days."
 
     else:
         result = "Unclear Dental Pain"
-        action = "Monitor and consult dentist if needed"
-        advice = "Observe symptoms closely."
+        action = "Monitor and consult dentist"
+        advice = "Observe symptoms."
         avoid = "Ignoring worsening pain."
-        visit = "If pain persists beyond 2 days."
+        visit = "If persists > 2 days."
 
 # -----------------------------
 # NO PAIN FLOW
@@ -119,52 +174,52 @@ elif pain == "No":
 
     if symptom == "No noticeable issues":
         result = "No obvious dental concern"
-        action = "Maintain routine oral care"
-        advice = "Brush twice daily, floss regularly, and maintain hygiene."
-        avoid = "Skipping regular dental checkups."
-        visit = "Routine checkup every 6 months."
+        action = "Maintain routine care"
+        advice = "Brush twice daily and floss."
+        avoid = "Skipping checkups."
+        visit = "Routine visit every 6 months."
 
     elif symptom == "Bleeding gums":
         result = "Gingivitis"
-        action = "Routine dental visit recommended"
-        advice = "Improve brushing technique and floss regularly."
-        avoid = "Ignoring bleeding gums."
+        action = "Routine dental visit"
+        advice = "Improve oral hygiene."
+        avoid = "Ignoring bleeding."
         visit = "Within a week."
 
     elif symptom == "Swelling":
-        result = "Possible Abscess / Infection"
-        action = "Seek immediate dental care"
-        advice = "Consult a dentist urgently."
+        result = "Possible Infection"
+        action = "Seek immediate care"
+        advice = "Consult dentist urgently."
         avoid = "Delaying treatment."
         visit = "Immediately."
 
     elif symptom == "Ulcer":
         result = "Aphthous Ulcer"
-        action = "Monitor condition"
-        advice = "Maintain oral hygiene and consider topical gels."
-        avoid = "Spicy or irritating foods."
-        visit = "If it persists beyond 5 days."
+        action = "Monitor"
+        advice = "Maintain hygiene."
+        avoid = "Spicy foods."
+        visit = "If >5 days."
 
     elif symptom == "Bad breath":
-        result = "Halitosis (Possible gum-related issue)"
+        result = "Halitosis"
         action = "Dental check recommended"
-        advice = "Clean tongue and maintain oral hygiene."
-        avoid = "Poor oral hygiene habits."
+        advice = "Clean tongue."
+        avoid = "Poor hygiene."
         visit = "Within a week."
 
     elif symptom == "Stains":
         result = "Extrinsic Staining"
-        action = "Cosmetic dental cleaning optional"
-        advice = "Professional cleaning can help remove stains."
-        avoid = "Excess tobacco or coffee consumption."
-        visit = "Optional visit for cleaning."
+        action = "Optional cleaning"
+        advice = "Professional cleaning helps."
+        avoid = "Tobacco/coffee."
+        visit = "Optional."
 
     elif symptom == "Other / Not listed":
-        result = "Unspecified condition"
-        action = "Dental consultation recommended"
-        advice = "Since your concern is not listed, a professional evaluation is best."
+        result = "Unspecified issue"
+        action = "Consult dentist"
+        advice = "Professional evaluation needed."
         avoid = "Self-diagnosis."
-        visit = "Visit dentist if concerned."
+        visit = "If concerned."
 
 # -----------------------------
 # RESULT DISPLAY
@@ -174,30 +229,35 @@ if result:
     st.subheader("🧾 Result")
 
     st.markdown(f"""
-    <div class="result-box condition">
-        <strong>Possible Condition:</strong> {result}
+    <div class="card condition">
+        <strong>Possible Condition:</strong><br>{result}
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div class="result-box action">
-        <strong>Recommended Action:</strong> {action}
+    <div class="card action">
+        <strong>Recommended Action:</strong><br>{action}
     </div>
     """, unsafe_allow_html=True)
 
-    st.write("### ☑️ What you can do now:")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.write("### ✅ What you can do now")
     st.write(advice)
 
-    st.write("### 🙅‍♀️ What to avoid:")
+    st.write("### ⚠️ What to avoid")
     st.write(avoid)
 
-    st.write("### 🏥 When to see a dentist:")
+    st.write("### 📅 When to see a dentist")
     st.write(visit)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    st.caption("This guidance is based on your inputs and should not replace professional consultation.")
+    st.caption("This is general guidance and not a clinical diagnosis.")
 
 # -----------------------------
-# Footer
+# FOOTER
 # -----------------------------
 st.divider()
-st.caption("Developed by Dr. Sunantha")
+st.caption("Dr. Sunantha S P")
+
+# Close container
+st.markdown('</div>', unsafe_allow_html=True)
