@@ -83,7 +83,7 @@ st.markdown('<div class="app-container">', unsafe_allow_html=True)
 # -----------------------------
 # Title
 # -----------------------------
-st.title("🦷 2-Min Dental Check")
+st.title("🦷 2-Min Dental Check Up")
 st.caption("Quick symptom-based guidance in under 2 minutes")
 
 st.warning("This tool provides general guidance and is not a medical diagnosis.")
